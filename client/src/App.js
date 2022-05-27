@@ -20,6 +20,13 @@ function App() {
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(todos))
   }, [todos]) //runs everytime anything in array changes
 
+  function toggleTodo(id) {
+    const newTodos = [...todos] //create a copy, never modify state variable
+    const todo = newTodos.find(todo => todo.id === id)
+    todo.complete = !todo.complete
+    setTodos(newTodos)
+  }
+
   function handleAdd(e){
     const name = todoNameRef.current.value
     if(name === "") return
@@ -32,7 +39,7 @@ function App() {
 
   return (
     <>
-      <TodoList todos={todos}/>
+      <TodoList todos={todos} toggleTodo={toggleTodo}/>
       <input ref={todoNameRef} type="text"/>
       <button onClick={handleAdd}>Add</button>
       <button>Clear</button>
